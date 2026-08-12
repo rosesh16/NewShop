@@ -15,7 +15,7 @@ public class App {
     }
 
     public static void main(String[] args) {
-        System.out.println("Online Shopping Website Application");
+        System.out.println("Online Shopping Website Application - Version 2");
         System.out.println("Application is running successfully.");
     }
 }
