@@ -1,27 +1,35 @@
 pipeline {
     agent any
 
+    triggers {
+        pollSCM('* * * * *')
+    }
+
     stages {
+
         stage('Checkout') {
             steps {
-                echo 'Checking out Shopping Website source code...'
+                echo '=== CHECKOUT: Getting latest code from GitHub ==='
             }
         }
 
         stage('Build') {
             steps {
+                echo '=== BUILD: Compiling the Shopping Website ==='
                 bat 'mvn clean package -DskipTests'
             }
         }
 
         stage('Test') {
             steps {
+                echo '=== TEST: Running automated tests ==='
                 bat 'mvn test'
             }
         }
 
         stage('Deploy') {
             steps {
+                echo '=== DEPLOY: Deploying application ==='
                 bat 'deploy.bat'
             }
         }
@@ -29,12 +37,19 @@ pipeline {
 
     post {
         success {
-            echo 'CI/CD Pipeline completed successfully!'
-            echo 'Shopping Website is ready for users.'
+            echo '======================================'
+            echo 'CI/CD PIPELINE COMPLETED SUCCESSFULLY'
+            echo 'Build ✓'
+            echo 'Test  ✓'
+            echo 'Deploy ✓'
+            echo '======================================'
         }
 
         failure {
-            echo 'Pipeline failed. Deployment was stopped.'
+            echo '======================================'
+            echo 'PIPELINE FAILED'
+            echo 'Deployment was stopped.'
+            echo '======================================'
         }
     }
 }
